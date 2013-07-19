@@ -206,7 +206,7 @@ void BattlegroundDS::KnockBackPlayer(Unit *player, float angle, float horizontal
 {
     if (player->GetTypeId() == TYPEID_PLAYER)
     {
-        WorldPacket data(SMSG_MOVE_KNOCK_BACK, 8+4+4+4+4+2);   // this needs checked for cataclysm!
+        WorldPacket data(MSG_MOVE_KNOCK_BACK, 8+4+4+4+4+2);   // this needs checked for cataclysm!
         data.append(player->GetPackGUID());
         data << uint32(0);
         data << float(cos(angle));

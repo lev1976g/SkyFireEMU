@@ -114,7 +114,7 @@ enum Opcodes
     CMSG_CANCEL_TEMP_ENCHANTMENT                     = 0x00000, // Unknown
     CMSG_CANCEL_TRADE                                = 0x0731E, // 4.3.4 Build 15595
     CMSG_CAST_SPELL                                  = 0x04C07, // 4.3.4 Build 15595
-    CMSG_CHANGE_SEATS_ON_CONTROLLED_VEHICLE          = 0x00000, // Unknown
+    CMSG_CHANGE_SEATS_ON_CONTROLLED_VEHICLE          = 0x10000, // Unknown
     CMSG_CHANNEL_ANNOUNCEMENTS                       = 0x01146, // 4.3.4 Build 15595
     CMSG_CHANNEL_BAN                                 = 0x03D56, // 4.3.4 Build 15595
     CMSG_CHANNEL_DISPLAY_LIST                        = 0x02144, // 4.3.4 Build 15595
@@ -169,8 +169,8 @@ enum Opcodes
     CMSG_EQUIPMENT_SET_DELETE                        = 0x04D07, // 4.3.4 Build 15595
     CMSG_EQUIPMENT_SET_SAVE                          = 0x04F27, // 4.3.4 Build 15595
     CMSG_EQUIPMENT_SET_USE                           = 0x00000, // Unknown
-    CMSG_FORCE_MOVE_ROOT_ACK                         = 0x0701E, // 4.3.4 Build 15595
-    CMSG_FORCE_MOVE_UNROOT_ACK                       = 0x07DB4, // 4.3.4 Build 15595
+    MSG_FORCE_MOVE_ROOT_ACK                         = 0x0701E, // 4.3.4 Build 15595
+    MSG_FORCE_MOVE_UNROOT_ACK                       = 0x07DB4, // 4.3.4 Build 15595
     CMSG_GAMEOBJECT_QUERY                            = 0x04017, // 4.3.4 Build 15595
     CMSG_GAMEOBJ_REPORT_USE                          = 0x04827, // 4.3.4 Build 15595
     CMSG_GAMEOBJ_USE                                 = 0x04E17, // 4.3.4 Build 15595
@@ -328,6 +328,7 @@ enum Opcodes
     CMSG_PLAYED_TIME                                 = 0x00804, // 4.3.4 Build 15595
     CMSG_PLAYER_DIFFICULTY_CHANGE                    = 0x00000, // Unknown
     CMSG_PLAYER_LOGIN                                = 0x005B1, // 4.3.4 Build 15595
+    CMSG_WORLD_LOGIN                                 = 0x005B1, // 4.3.4 Build 15595
     CMSG_PLAYER_LOGOUT                               = 0x00000, // Unknown
     CMSG_PLAYER_VEHICLE_ENTER                        = 0x00000, // Unknown
     CMSG_PLAY_DANCE                                  = 0x06914, // 4.3.4 Build 15595
@@ -377,7 +378,7 @@ enum Opcodes
     CMSG_REQUEST_VEHICLE_EXIT                        = 0x00000, // Unknown
     CMSG_REQUEST_VEHICLE_NEXT_SEAT                   = 0x00000, // Unknown
     CMSG_REQUEST_VEHICLE_PREV_SEAT                   = 0x04434, // 4.3.4 Build 15595
-    CMSG_REQUEST_VEHICLE_SWITCH_SEAT                 = 0x00000, // Unknown
+    CMSG_REQUEST_VEHICLE_SWITCH_SEAT                 = 0x1000a, // Unknown
     CMSG_RESET_FACTION_CHEAT                         = 0x04469, // 4.3.4 Build 15595
     CMSG_RESET_INSTANCES                             = 0x06E14, // 4.3.4 Build 15595
     CMSG_RESURRECT_RESPONSE                          = 0x06827, // 4.3.4 Build 15595
@@ -1144,6 +1145,29 @@ enum Opcodes
     SMSG_VOID_STORAGE_CONTENTS                       = 0x075B4, // 4.3.4 Build 15595
     SMSG_VOID_ITEM_SWAP_RESPONSE                     = 0x078A2, // 4.3.4 Build 15595
     SMSG_REFORGE_RESULT                              = 0x058A4, // 4.3.4 Build 15595
+
+    // These opcodes need to be changed or removed from core. Debug use only
+    SMSG_REFORGE_OPEN_FROM_GOSSIP                    = 0x1000B, // Unk
+    CMSG_AUTOSTORE_LOOT_CURRENCY                     = 0x1000C, // Unk
+    SMSG_CALENDAR_SEND_EVENT = 0x1000C, // Unk
+    SMSG_CALENDAR_EVENT_INVITE = 0x1000C, // Unk
+    SMSG_CALENDAR_EVENT_INVITE_ALERT = 0x1000C, // Unk
+    SMSG_CALENDAR_EVENT_UPDATED_ALERT = 0x1000C, // Unk
+    SMSG_CALENDAR_EVENT_REMOVED_ALERT = 0x1000C, // Unk
+    SMSG_CALENDAR_EVENT_STATUS = 0x1000C, // Unk
+    SMSG_CALENDAR_EVENT_MODERATOR_STATUS_ALERT = 0x1000C, // Unk
+    SMSG_CALENDAR_EVENT_INVITE_REMOVED_ALERT = 0x1000C, // Unk
+    SMSG_CALENDAR_EVENT_INVITE_REMOVED = 0x1000C, // Unk
+    SMSG_CALENDAR_CLEAR_ACTION_PENDING = 0x1000C, // Unk
+    SMSG_CALENDAR_RAID_LOCKOUT_UPDATED = 0x1000C, // Unk
+    SMSG_CALENDAR_RAID_LOCKOUT_REMOVED = 0x1000C, // Unk
+    SMSG_CALENDAR_RAID_LOCKOUT_ADDED = 0x1000C, // Unk
+    SMSG_LFG_BOOT_PROPOSAL_UPDATE = 0x1000C, // Unk
+    SMSG_GUILD_PARTY_STATE_UPDATE = 0x1000C, // Unk
+    SMSG_GUILD_ACHIEVEMENT_EARNED = 0x1000C, // Unk
+    SMSG_GUILD_CRITERIA_DATA = 0x1000C, // Unk
+    SMSG_GUILD_CRITERIA_DELETED = 0x1000C, // Unk
+
     NUM_MSG_TYPES                                    = 0x102B8  // last unknown opcode + 1.
 };
 

@@ -922,7 +922,7 @@ class boss_kaelthas : public CreatureScript
 
                                                 //Using packet workaround
                                                 WorldPacket data(12);
-                                                data.SetOpcode(SMSG_MOVE_SET_CAN_FLY);
+                                                data.SetOpcode(MSG_MOVE_SET_CAN_FLY);
                                                 data.append(unit->GetPackGUID());
                                                 data << uint32(0);
                                                 unit->SendMessageToSet(&data, true);
@@ -949,7 +949,7 @@ class boss_kaelthas : public CreatureScript
                                             {
                                                 //Using packet workaround
                                                 WorldPacket data(12);
-                                                data.SetOpcode(SMSG_MOVE_UNSET_CAN_FLY);
+                                                data.SetOpcode(MSG_MOVE_UNSET_CAN_FLY);
                                                 data.append(unit->GetPackGUID());
                                                 data << uint32(0);
                                                 unit->SendMessageToSet(&data, true);

@@ -2396,7 +2396,7 @@ bool Creature::SetWalk(bool enable)
     if (!Unit::SetWalk(enable))
         return false;
 
-    WorldPacket data(enable ? SMSG_SPLINE_MOVE_SET_WALK_MODE : SMSG_SPLINE_MOVE_SET_RUN_MODE, 9);
+    WorldPacket data(enable ? MSG_MOVE_SPLINE_SET_WALK_MODE : MSG_MOVE_SPLINE_SET_RUN_MODE, 9);
     data.append(GetPackGUID());
     SendMessageToSet(&data, false);
     return true;
@@ -2407,7 +2407,7 @@ bool Creature::SetLevitate(bool enable)
     if (!Unit::SetLevitate(enable))
         return false;
 
-    WorldPacket data(enable ? SMSG_SPLINE_MOVE_GRAVITY_DISABLE : SMSG_SPLINE_MOVE_GRAVITY_ENABLE, 9);
+    WorldPacket data(enable ? MSG_MOVE_DISABLE_GRAVITY : MSG_MOVE_ENABLE_GRAVITY, 9);
     data.append(GetPackGUID());
     SendMessageToSet(&data, false);
     return true;

@@ -173,7 +173,7 @@ Unit::Unit(bool isWorldObject): WorldObject(isWorldObject)
     _objectType |= TYPEMASK_UNIT;
     _objectTypeId = TYPEID_UNIT;
 
-    m_updateFlag = (UPDATEFLAG_LIVING | UPDATEFLAG_HAS_POSITION);
+    m_updateFlag = (UPDATEFLAG_HAS_LIVING | UPDATEFLAG_HAS_GO_POSITION);
 
     m_attackTimer[BASE_ATTACK] = 0;
     m_attackTimer[OFF_ATTACK] = 0;
@@ -13251,31 +13251,31 @@ void Unit::SetSpeed(UnitMoveType mtype, float rate, bool forced)
         switch (mtype)
         {
             case MOVE_WALK:
-                data.Initialize(SMSG_FORCE_WALK_SPEED_CHANGE, 16);
+                data.Initialize(MSG_MOVE_FORCE_WALK_SPEED_CHANGE_ACK, 16);
                 break;
             case MOVE_RUN:
-                data.Initialize(SMSG_FORCE_RUN_SPEED_CHANGE, 17);
+                data.Initialize(MSG_MOVE_FORCE_RUN_SPEED_CHANGE_ACK, 17);
                 break;
             case MOVE_RUN_BACK:
-                data.Initialize(SMSG_FORCE_RUN_BACK_SPEED_CHANGE, 16);
+                data.Initialize(MSG_MOVE_FORCE_RUN_BACK_SPEED_CHANGE_ACK, 16);
                 break;
             case MOVE_SWIM:
-                data.Initialize(SMSG_FORCE_SWIM_SPEED_CHANGE, 16);
+                data.Initialize(MSG_MOVE_FORCE_SWIM_SPEED_CHANGE_ACK, 16);
                 break;
             case MOVE_SWIM_BACK:
-                data.Initialize(SMSG_FORCE_SWIM_BACK_SPEED_CHANGE, 16);
+                data.Initialize(MSG_MOVE_FORCE_SWIM_BACK_SPEED_CHANGE_ACK, 16);
                 break;
             case MOVE_TURN_RATE:
-                data.Initialize(SMSG_FORCE_TURN_RATE_CHANGE, 16);
+                data.Initialize(MSG_MOVE_FORCE_TURN_RATE_CHANGE_ACK, 16);
                 break;
             case MOVE_FLIGHT:
-                data.Initialize(SMSG_FORCE_FLIGHT_SPEED_CHANGE, 16);
+                data.Initialize(MSG_MOVE_FORCE_FLIGHT_SPEED_CHANGE_ACK, 16);
                 break;
             case MOVE_FLIGHT_BACK:
-                data.Initialize(SMSG_FORCE_FLIGHT_BACK_SPEED_CHANGE, 16);
+                data.Initialize(MSG_MOVE_FORCE_FLIGHT_BACK_SPEED_CHANGE_ACK, 16);
                 break;
             case MOVE_PITCH_RATE:
-                data.Initialize(SMSG_FORCE_PITCH_RATE_CHANGE, 16);
+                data.Initialize(MSG_MOVE_FORCE_PITCH_RATE_CHANGE_ACK, 16);
                 break;
             default:
                 sLog->outError("Unit::SetSpeed: Unsupported move type (%d), data not sent to client.", mtype);
@@ -16415,7 +16415,7 @@ void Unit::SetRooted(bool apply)
         {
             if (Player* player = ToPlayer())
             {
-                WorldPacket data(SMSG_FORCE_MOVE_ROOT, 10);
+                WorldPacket data(MSG_FORCE_MOVE_ROOT_ACK, 10);
                 data.append(GetPackGUID());
                 data << m_rootTimes;
                 player->GetSession()->SendPacket(&data);
@@ -16423,7 +16423,7 @@ void Unit::SetRooted(bool apply)
         }
         else
         {
-            WorldPacket data(SMSG_SPLINE_MOVE_ROOT, 8);
+            WorldPacket data(MSG_MOVE_SPLINE_ROOT, 8);
             data.append(GetPackGUID());
             SendMessageToSet(&data, true);
             ToCreature()->StopMoving();
@@ -16437,7 +16437,7 @@ void Unit::SetRooted(bool apply)
             {
                 if (Player* player = ToPlayer())
                 {
-                    WorldPacket data(SMSG_FORCE_MOVE_UNROOT, 10);
+                    WorldPacket data(MSG_FORCE_MOVE_UNROOT_ACK, 10);
                     data.append(GetPackGUID());
                     data << ++m_rootTimes;
                     player->GetSession()->SendPacket(&data);
@@ -16445,7 +16445,7 @@ void Unit::SetRooted(bool apply)
             }
             else
             {
-                WorldPacket data(SMSG_SPLINE_MOVE_UNROOT, 8);
+                WorldPacket data(MSG_MOVE_SPLINE_UNROOT, 8);
                 data.append(GetPackGUID());
                 SendMessageToSet(&data, true);
             }
@@ -16788,7 +16788,7 @@ bool Unit::CreateVehicleKit(uint32 id, uint32 creatureEntry)
         return false;
 
     _vehicleKit = new Vehicle(this, vehInfo, creatureEntry);
-    m_updateFlag |= UPDATEFLAG_VEHICLE;
+    m_updateFlag |= UPDATEFLAG_HAS_VEHICLE;
     m_unitTypeMask |= UNIT_MASK_VEHICLE;
     return true;
 }
@@ -16803,7 +16803,7 @@ void Unit::RemoveVehicleKit()
 
     _vehicleKit = NULL;
 
-    m_updateFlag &= ~UPDATEFLAG_VEHICLE;
+    m_updateFlag &= ~UPDATEFLAG_HAS_VEHICLE;
     m_unitTypeMask &= ~UNIT_MASK_VEHICLE;
     RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPELLCLICK);
     RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_PLAYER_VEHICLE);
@@ -17164,7 +17164,7 @@ void Unit::KnockbackFrom(float x, float y, float speedXY, float speedZ)
         float vcos, vsin;
         GetSinCos(x, y, vsin, vcos);
 
-        WorldPacket data(SMSG_MOVE_KNOCK_BACK, (8+4+4+4+4+4));
+        WorldPacket data(MSG_MOVE_KNOCK_BACK, (8+4+4+4+4+4));
         data.append(GetPackGUID());
         data << uint32(0);                                      // counter
         data << float(vcos);                                    // x direction
@@ -17655,7 +17655,7 @@ void Unit::JumpTo(float speedXY, float speedZ, bool forward)
         float vcos = cos(angle+GetOrientation());
         float vsin = sin(angle+GetOrientation());
 
-        WorldPacket data(SMSG_MOVE_KNOCK_BACK, (8+4+4+4+4+4));
+        WorldPacket data(MSG_MOVE_KNOCK_BACK, (8+4+4+4+4+4));
         data.append(GetPackGUID());
         data << uint32(0);                                      // Sequence
         data << float(vcos);                                    // x direction
@@ -17869,7 +17869,7 @@ void Unit::_ExitVehicle(Position const* exitPosition)
         ToPlayer()->SetFallInformation(0, GetPositionZ());
     else if (HasUnitMovementFlag(MOVEMENTFLAG_ROOT))
     {
-        WorldPacket data(SMSG_SPLINE_MOVE_UNROOT, 8);
+        WorldPacket data(MSG_MOVE_SPLINE_UNROOT, 8);
         data.append(GetPackGUID());
         SendMessageToSet(&data, false);
     }

@@ -100,13 +100,13 @@ public:
     WorldPacket data(SMSG_MULTIPLE_PACKETS, 14);
     if (strncmp(args, "change", 7) == 0)
         if (target->canFly())
-            data << uint16(SMSG_MOVE_UNSET_CAN_FLY);
+            data << uint16(MSG_MOVE_UNSET_CAN_FLY);
         else
-            data << uint16(SMSG_MOVE_SET_CAN_FLY);
+            data << uint16(MSG_MOVE_SET_CAN_FLY);
     else if (strncmp(args, "on", 3) == 0)
-        data << uint16(SMSG_MOVE_SET_CAN_FLY);
+        data << uint16(MSG_MOVE_SET_CAN_FLY);
     else if (strncmp(args, "off", 4) == 0)
-        data << uint16(SMSG_MOVE_UNSET_CAN_FLY);
+        data << uint16(MSG_MOVE_UNSET_CAN_FLY);
     else
         {
             handler->SendSysMessage(LANGUAGE_USE_BOL);

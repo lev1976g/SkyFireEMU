@@ -2969,9 +2969,9 @@ void AuraEffect::HandleAuraAllowFlight(AuraApplication const* aurApp, uint8 mode
         // allow flying
         WorldPacket data;
         if (apply)
-            data.Initialize(SMSG_MOVE_SET_CAN_FLY, 12);
+            data.Initialize(MSG_MOVE_SET_CAN_FLY, 12);
         else
-            data.Initialize(SMSG_MOVE_UNSET_CAN_FLY, 12);
+            data.Initialize(MSG_MOVE_UNSET_CAN_FLY, 12);
         data.append(target->GetPackGUID());
         data << uint32(0);           // unk
         player->SendDirectMessage(&data);
@@ -3013,9 +3013,9 @@ void AuraEffect::HandleAuraWaterWalk(AuraApplication const* aurApp, uint8 mode, 
 
     WorldPacket data;
     if (apply)
-        data.Initialize(SMSG_MOVE_WATER_WALK, 2 + 8 + 4);    // Turn Waterwalk on.
+        data.Initialize(MSG_MOVE_WATER_WALK_ACK, 2 + 8 + 4);    // Turn Waterwalk on.
     else
-        data.Initialize(SMSG_MOVE_LAND_WALK, 2 + 8 + 4);     // Turn Waterwalk off.
+        data.Initialize(MSG_MOVE_SET_LAND_WALK, 2 + 8 + 4);     // Turn Waterwalk off.
     data.append(target->GetPackGUID());
     data << uint32(0);
     target->SendMessageToSet(&data, true);
@@ -3037,9 +3037,9 @@ void AuraEffect::HandleAuraFeatherFall(AuraApplication const* aurApp, uint8 mode
 
     WorldPacket data;
     if (apply)
-        data.Initialize(SMSG_MOVE_FEATHER_FALL, 8+4);
+        data.Initialize(MSG_MOVE_SET_FEATHER_FALL, 8+4);
     else
-        data.Initialize(SMSG_MOVE_NORMAL_FALL, 8+4);
+        data.Initialize(MSG_MOVE_SET_NORMAL_FALL, 8+4);
     data.append(target->GetPackGUID());
     data << uint32(0);
     target->SendMessageToSet(&data, true);
@@ -3065,9 +3065,9 @@ void AuraEffect::HandleAuraHover(AuraApplication const* aurApp, uint8 mode, bool
 
     WorldPacket data;
     if (apply)
-        data.Initialize(SMSG_MOVE_SET_HOVER, 8+4);
+        data.Initialize(MSG_MOVE_SPLINE_SET_HOVER, 8+4);
     else
-        data.Initialize(SMSG_MOVE_UNSET_HOVER, 8+4);
+        data.Initialize(MSG_MOVE_SPLINE_UNSET_HOVER, 8+4);
     data.append(target->GetPackGUID());
     data << uint32(0);
     target->SendMessageToSet(&data, true);
@@ -3415,9 +3415,9 @@ void AuraEffect::HandleAuraModIncreaseFlightSpeed(AuraApplication const* aurApp,
             {
                 WorldPacket data;
                 if (apply)
-                    data.Initialize(SMSG_MOVE_SET_CAN_FLY, 12);
+                    data.Initialize(MSG_MOVE_SET_CAN_FLY, 12);
                 else
-                    data.Initialize(SMSG_MOVE_UNSET_CAN_FLY, 12);
+                    data.Initialize(MSG_MOVE_UNSET_CAN_FLY, 12);
                 data.append(player->GetPackGUID());
                 data << uint32(0);                                      // unknown
                 player->SendDirectMessage(&data);

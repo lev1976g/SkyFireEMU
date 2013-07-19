@@ -960,14 +960,14 @@ public:
         target->SetUInt32Value(UNIT_FIELD_FLAGS, UNIT_FLAG_PVP);
         target->Mount(mId);
 
-        WorldPacket data(SMSG_FORCE_RUN_SPEED_CHANGE, (8+4+1+4));
+        WorldPacket data(MSG_MOVE_FORCE_RUN_SPEED_CHANGE_ACK, (8+4+1+4));
         data.append(target->GetPackGUID());
         data << (uint32)0;
         data << (uint8)0;                                       //new 2.1.0
         data << float(speed);
         target->SendMessageToSet(&data, true);
 
-        data.Initialize(SMSG_FORCE_SWIM_SPEED_CHANGE, (8+4+4));
+        data.Initialize(MSG_MOVE_FORCE_SWIM_SPEED_CHANGE_ACK, (8+4+4));
         data.append(target->GetPackGUID());
         data << (uint32)0;
         data << float(speed);

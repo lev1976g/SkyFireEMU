@@ -198,9 +198,9 @@ void Object::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) c
 
     /** lower flag1 **/
     if (target == this)                                      // building packet for yourself
-        flags |= UPDATEFLAG_SELF;
+        flags |= UPDATEFLAG_HAS_SELF;
 
-    if (flags & UPDATEFLAG_HAS_POSITION)
+    if (flags & UPDATEFLAG_HAS_GO_POSITION)
     {
         // UPDATETYPE_CREATE_OBJECT2 dynamic objects, corpses...
         if (isType(TYPEMASK_DYNAMICOBJECT) || isType(TYPEMASK_CORPSE) || isType(TYPEMASK_PLAYER))
@@ -222,7 +222,7 @@ void Object::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) c
                     updatetype = UPDATETYPE_CREATE_OBJECT2;
                     break;
                 case GAMEOBJECT_TYPE_TRANSPORT:
-                    flags |= UPDATEFLAG_TRANSPORT;
+                    flags |= UPDATEFLAG_HAS_GO_TRANSPORT_TIME;
                     break;
                 default:
                     break;
@@ -232,7 +232,7 @@ void Object::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) c
         if (isType(TYPEMASK_UNIT))
         {
             if (((Unit*)this)->getVictim())
-                flags |= UPDATEFLAG_HAS_TARGET;
+                flags |= UPDATEFLAG_HAS_ATTACKING_TARGET;
         }
     }
 
@@ -298,7 +298,7 @@ void Object::_BuildMovementUpdate(ByteBuffer * data, uint16 flags) const
     *data << (uint16)flags;                                  // update flags
 
     // 0x20
-    if (flags & UPDATEFLAG_LIVING)
+    if (flags & UPDATEFLAG_HAS_LIVING)
     {
         Unit const* self = ToUnit();
         self->BuildMovementPacket(data);
@@ -320,7 +320,7 @@ void Object::_BuildMovementUpdate(ByteBuffer * data, uint16 flags) const
     else
     {
         WorldObject* worldObj = ((WorldObject*)this);
-        if (flags & UPDATEFLAG_POSITION)
+        if (flags & UPDATEFLAG_HAS_GO_POSITION)
         {
             *data << uint8(0);    // unk PGUID!
             *data << worldObj->GetPositionX();
@@ -339,10 +339,10 @@ void Object::_BuildMovementUpdate(ByteBuffer * data, uint16 flags) const
         else
         {
             // 0x40
-            if (flags & UPDATEFLAG_HAS_POSITION)
+            if (flags & UPDATEFLAG_HAS_STATIONARY_POSITION)
             {
                 // 0x02
-                if (flags & UPDATEFLAG_TRANSPORT && ((GameObject*)this)->GetGoType() == GAMEOBJECT_TYPE_MO_TRANSPORT)
+                if (flags & UPDATEFLAG_HAS_GO_TRANSPORT_TIME && ((GameObject*)this)->GetGoType() == GAMEOBJECT_TYPE_MO_TRANSPORT)
                 {
                     *data << (float)0;
                     *data << (float)0;
@@ -361,7 +361,7 @@ void Object::_BuildMovementUpdate(ByteBuffer * data, uint16 flags) const
     }
 
     // 0x4
-    if (flags & UPDATEFLAG_HAS_TARGET)                       // packed guid (current target guid)
+    if (flags & UPDATEFLAG_HAS_ATTACKING_TARGET)                       // packed guid (current target guid)
     {
         if (Unit *victim = this->ToUnit()->getVictim())
             data->append(victim->GetPackGUID());
@@ -370,27 +370,27 @@ void Object::_BuildMovementUpdate(ByteBuffer * data, uint16 flags) const
     }
 
     // 0x2
-    if (flags & UPDATEFLAG_TRANSPORT)
+    if (flags & UPDATEFLAG_HAS_GO_TRANSPORT_TIME)
         *data << uint32(getMSTime());  // ms time
 
     // 0x80
-    if (flags & UPDATEFLAG_VEHICLE)  // unused for now
+    if (flags & UPDATEFLAG_HAS_VEHICLE)  // unused for now
     {
         *data << uint32(((Unit*)this)->GetVehicleKit()->GetVehicleInfo()->m_ID);  // vehicle id
         *data << float(((Creature*)this)->GetOrientation());  // facing adjustment
     }
 
     // 0x800 - AnimKits
-    if (flags & UPDATEFLAG_ANIMKITS)
+    if (flags & UPDATEFLAG_HAS_ANIMKITS)
         *data << uint16(0) << uint16(0) << uint16(0);  // unk
 
     // 0x200
-    if (flags & UPDATEFLAG_ROTATION)
+    if (flags & UPDATEFLAG_HAS_GO_ROTATION)
         *data << int64(((GameObject*)this)->GetRotation());
 
     // 0x1000
-    if (flags & UPDATEFLAG_UNK3)
-        *data << uint8(0);  // unk counter to read uint32 values
+    //if (flags & UPDATEFLAG_UNK3)
+    //    *data << uint8(0);  // unk counter to read uint32 values
 }
 
 void Object::_BuildValuesUpdate(uint8 updatetype, ByteBuffer * data, UpdateMask* updateMask, Player* target) const
