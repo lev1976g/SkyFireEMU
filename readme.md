@@ -1,5 +1,7 @@
-# SkyFireEMU 4.0.6a Mmaps Version
+# SkyFireEMU 4.3.4a Mmaps Version
 # General information
+
+<<<<<<<<<<<<<< NOT SUPPORTED! >>>>>>>>>>>>>>>
 
 Official Website
 http://www.projectskyfire.org/
