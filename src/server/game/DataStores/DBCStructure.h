@@ -842,9 +842,9 @@ struct CurrencyTypesEntry
     //uint32    Category;                                   // 1        may be category
     //char* name;                                           // 2
     //char* iconName;                                       // 3
-    //uint32 unk4;                                          // 4        all 0
-    //uint32 unk5;                                          // 5        archaeology-related (?)
-    //uint32 unk6;                                          // 6        archaeology-related (?)
+    //uint32 unk4;                                          // 4        all 0        
+    uint32 HasSubstitution;                                 // 5        archaeology-related (?
+	uint32 SubstitutionId;                                  // 6
     uint32 TotalCap;                                        // 7
     uint32 WeekCap;                                         // 8
     uint32 Flags;                                           // 9
